@@ -101,6 +101,8 @@ make download           # Download placeholder ppe.pt (YOLOv8n)
 make export             # Export ppe.pt to exports/ (ONNX)
 make validate           # Validate inference visually (interactive window + test report)
 make validate-inspiron  # Validate inference using inspiron3521_cpu profile
+make validate-video     # Validate inference on video stream with live HUD
+make validate-video-inspiron # Validate video on Inspiron 3521 profile
 make bench              # Run performance benchmark using dev_pt profile
 make bench-inspiron     # Run performance benchmark using inspiron3521_cpu profile
 make run                # Run multi-camera pipeline with UI display

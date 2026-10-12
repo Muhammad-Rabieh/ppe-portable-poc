@@ -1,4 +1,4 @@
-.PHONY: setup download export infer validate bench bench-inspiron run run-headless pack pack-md clean
+.PHONY: setup download export infer validate validate-inspiron validate-video validate-video-inspiron bench bench-inspiron run run-headless pack pack-md clean
 
 VENV ?= .venv
 PYTHON ?= $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python)
@@ -22,6 +22,12 @@ validate:
 
 validate-inspiron:
 	$(PYTHON) scripts/validate.py --profile inspiron3521_cpu
+
+validate-video:
+	$(PYTHON) scripts/validate_video.py
+
+validate-video-inspiron:
+	$(PYTHON) scripts/validate_video.py --profile inspiron3521_cpu
 
 bench:
 	$(PYTHON) scripts/bench.py --profile dev_pt

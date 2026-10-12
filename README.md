@@ -40,22 +40,27 @@ make download
 # 3. Export model to ONNX format
 make export
 
-# 4. Run interactive visual validation
+# 4. Run interactive visual validation on sample image
 make validate
 # or explicitly for Dell Inspiron 3521 / older dual-core CPUs:
 make validate-inspiron
 
-# 5. Run performance benchmark
+# 5. Run interactive visual validation on sample video stream
+make validate-video
+# or on Dell Inspiron 3521:
+make validate-video-inspiron
+
+# 6. Run performance benchmark
 make bench
 # or benchmark Dell Inspiron 3521:
 make bench-inspiron
 ```
 
-> **Visual Validation**: Running `make validate` will automatically:
-> 1. Draw color-coded bounding boxes and class labels directly onto the test image.
+> **Visual Validation**: Running `make validate` or `make validate-video` will automatically:
+> 1. Draw color-coded bounding boxes and class labels directly onto the test image/stream with live FPS HUD.
 > 2. Open an active **graphical preview window** (stays open until you press any key or click `X`).
-> 3. Save the annotated image to `validation/bus_detected.jpg`.
-> 4. Generate and open a structured text report in your desktop editor at `validation/test_data.txt`.
+> 3. Save the annotated output to `validation/bus_detected.jpg` (or `validation/vtest_detected.mp4`).
+> 4. Generate and open a structured text report in your desktop editor (`validation/test_data.txt` or `validation/video_test_data.txt`).
 > *(To run silently in headless CI or SSH sessions, pass `--headless`)*.
 
 ---
@@ -129,6 +134,8 @@ make download           # Download placeholder ppe.pt (YOLOv8n)
 make export             # Export ppe.pt to ONNX in exports/
 make validate           # Visual validation with interactive preview & report
 make validate-inspiron  # Visual validation for Dell Inspiron 3521 profile
+make validate-video     # Visual validation on sample video stream
+make validate-video-inspiron # Video visual validation on Inspiron 3521
 make bench              # Benchmark dev_pt profile (1-cam & 2-cam FPS)
 make bench-inspiron     # Benchmark Inspiron 3521 profile (30 frames)
 make run                # Run live camera pipeline with display
