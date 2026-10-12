@@ -83,16 +83,26 @@ class CameraStream:
                     time.sleep(self.reconnect_delay)
                     continue
 
+            src_fps = self._cap.get(cv2.CAP_PROP_FPS) or 25.0
+            is_file = isinstance(self.source, str) and not self.source.startswith("rtsp")
+
             ok, frame = self._cap.read()
             if not ok:
-                print(f"[{self.name}] read failed — reconnecting …")
-                self._cap.release()
-                self._cap = None
-                time.sleep(self.reconnect_delay)
-                continue
+                if is_file and self._cap.get(cv2.CAP_PROP_FRAME_COUNT) > 1:
+                    self._cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                    ok, frame = self._cap.read()
+                if not ok:
+                    print(f"[{self.name}] read failed — reconnecting …")
+                    self._cap.release()
+                    self._cap = None
+                    time.sleep(self.reconnect_delay)
+                    continue
 
             with self._lock:
                 self._frame = frame
+
+            if is_file and src_fps > 0:
+                time.sleep(1.0 / src_fps)
 
             count += 1
             now = time.time()

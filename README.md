@@ -50,17 +50,22 @@ make validate-video
 # or on Dell Inspiron 3521:
 make validate-video-inspiron
 
-# 6. Run performance benchmark
+# 6. Run dual-camera simulation test (side-by-side dashboard)
+make validate-dual-video
+# or on Dell Inspiron 3521:
+make validate-dual-video-inspiron
+
+# 7. Run performance benchmark
 make bench
 # or benchmark Dell Inspiron 3521:
 make bench-inspiron
 ```
 
-> **Visual Validation**: Running `make validate` or `make validate-video` will automatically:
+> **Visual Validation**: Running `make validate`, `make validate-video`, or `make validate-dual-video` will automatically:
 > 1. Draw color-coded bounding boxes and class labels directly onto the test image/stream with live FPS HUD.
-> 2. Open an active **graphical preview window** (stays open until you press any key or click `X`).
-> 3. Save the annotated output to `validation/bus_detected.jpg` (or `validation/vtest_detected.mp4`).
-> 4. Generate and open a structured text report in your desktop editor (`validation/test_data.txt` or `validation/video_test_data.txt`).
+> 2. Open an active **graphical preview window** (with side-by-side view for dual streams; stays open until you press any key or click `X`).
+> 3. Save the annotated output (`validation/bus_detected.jpg`, `validation/vtest_detected.mp4`, or `validation/dual_video_detected.mp4`).
+> 4. Generate and open a structured text report in your desktop editor (`validation/test_data.txt`, `validation/video_test_data.txt`, or `validation/dual_video_test_data.txt`).
 > *(To run silently in headless CI or SSH sessions, pass `--headless`)*.
 
 ---
@@ -136,6 +141,8 @@ make validate           # Visual validation with interactive preview & report
 make validate-inspiron  # Visual validation for Dell Inspiron 3521 profile
 make validate-video     # Visual validation on sample video stream
 make validate-video-inspiron # Video visual validation on Inspiron 3521
+make validate-dual-video     # Dual-camera simulation visual test (side-by-side)
+make validate-dual-video-inspiron # Dual-camera simulation on Inspiron 3521
 make bench              # Benchmark dev_pt profile (1-cam & 2-cam FPS)
 make bench-inspiron     # Benchmark Inspiron 3521 profile (30 frames)
 make run                # Run live camera pipeline with display
