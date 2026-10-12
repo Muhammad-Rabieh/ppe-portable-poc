@@ -39,6 +39,14 @@ def load_yaml(p):
         return yaml.safe_load(f)
 
 
+def is_window_open(win_name: str) -> bool:
+    """Check if window is open without crashing on Qt (-27 Null pointer)."""
+    try:
+        return cv2.getWindowProperty(win_name, cv2.WND_PROP_VISIBLE) >= 1
+    except Exception:
+        return False
+
+
 def ensure_video(path: Path):
     VAL_DIR.mkdir(exist_ok=True)
     if not path.exists():
@@ -167,10 +175,14 @@ def main():
                 if key in (27, ord('q'), ord('Q')):
                     print("[INFO] Playback interrupted by user.")
                     break
-                if cv2.getWindowProperty(win_title, cv2.WND_PROP_VISIBLE) < 1:
+                if not is_window_open(win_title):
                     print("[INFO] Window closed by user.")
                     break
 
+    except KeyboardInterrupt:
+        print("[INFO] Playback interrupted by user (Ctrl-C).")
+    except Exception as e:
+        print(f"[WARN] Playback stopped: {e}")
     finally:
         cap.release()
         if writer:
@@ -239,7 +251,7 @@ def main():
             key = cv2.waitKey(50)
             if key != -1:
                 break
-            if cv2.getWindowProperty(win_title, cv2.WND_PROP_VISIBLE) < 1:
+            if not is_window_open(win_title):
                 break
         cv2.destroyAllWindows()
 

@@ -1,4 +1,4 @@
-.PHONY: setup download export infer validate validate-inspiron validate-video validate-video-inspiron validate-dual-video validate-dual-video-inspiron bench bench-inspiron run run-headless pack pack-md clean
+.PHONY: setup download export infer validate validate-inspiron validate-video validate-video-inspiron validate-dual-video validate-dual-video-inspiron run-live run-live-inspiron bench bench-inspiron run run-headless pack pack-md clean
 
 VENV ?= .venv
 PYTHON ?= $(if $(wildcard $(VENV)/bin/python),$(VENV)/bin/python,python)
@@ -34,6 +34,12 @@ validate-dual-video:
 
 validate-dual-video-inspiron:
 	$(PYTHON) scripts/validate_dual_video.py --profile inspiron3521_cpu
+
+run-live:
+	$(PYTHON) scripts/validate_dual_video.py --live
+
+run-live-inspiron:
+	$(PYTHON) scripts/validate_dual_video.py --live --profile inspiron3521_cpu
 
 bench:
 	$(PYTHON) scripts/bench.py --profile dev_pt

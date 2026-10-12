@@ -30,6 +30,14 @@ def load_yaml(p):
         return yaml.safe_load(f)
 
 
+def is_window_open(win_name: str) -> bool:
+    """Check if window is open without crashing on Qt (-27 Null pointer)."""
+    try:
+        return cv2.getWindowProperty(win_name, cv2.WND_PROP_VISIBLE) >= 1
+    except Exception:
+        return False
+
+
 def ensure_image():
     VAL_DIR.mkdir(exist_ok=True)
     if not IMG_PATH.exists():
@@ -169,7 +177,7 @@ def main():
                 if key != -1:  # user pressed any key
                     break
                 # check if user closed the window with 'X' button
-                if cv2.getWindowProperty(win_title, cv2.WND_PROP_VISIBLE) < 1:
+                if not is_window_open(win_title):
                     break
         cv2.destroyAllWindows()
 
