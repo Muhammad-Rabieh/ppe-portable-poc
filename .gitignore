@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Ultralytics / YOLO
+runs/
+*.pt
+*.onnx
+*.engine
+*.rknn
+*.mnn
+
+# exports — keep the folder, ignore contents except .gitkeep
+exports/*
+!exports/.gitkeep
+validation/*
+!validation/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets
+*.env
+.env*
+
+# Repomix context outputs
+repomix-output.*

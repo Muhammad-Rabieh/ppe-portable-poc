@@ -1,0 +1,31 @@
+# Two camera sources.  Edit sources for your deployment.
+#
+# source can be:
+#   - RTSP URL:        "rtsp://user:pass@192.168.1.10:554/stream1"
+#   - USB index:       0  or  1
+#   - Video file path: "/path/to/test.mp4"   (useful for bench/CI)
+
+# ---- Dry-run / staging (Dell Inspiron / no real cameras yet) ----
+# Uses a static image as a fake stream for pipeline correctness testing.
+# Swap in USB webcam indices (0, 1) or real RTSP URLs when ready.
+cameras:
+  - name: cam1
+    source: "validation/bus.jpg"   # static image as fake stream 1
+  - name: cam2
+    source: "validation/bus.jpg"   # static image as fake stream 2
+
+# ---- Real cameras (uncomment when ready) ----
+#
+# cameras:
+#   - name: cam1
+#     source: "rtsp://user:pass@192.168.1.10:554/stream1"
+#   - name: cam2
+#     source: "rtsp://user:pass@192.168.1.11:554/stream1"
+
+# ---- USB webcams (uncomment for local webcam test) ----
+#
+# cameras:
+#   - name: cam1
+#     source: 0
+#   - name: cam2
+#     source: 1

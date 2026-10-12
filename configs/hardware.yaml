@@ -1,0 +1,77 @@
+# Pick a profile with:  python scripts/run_cameras.py --profile n100_cpu
+# Each profile says which format to load and how to run it.
+# Add a new profile here when adding new hardware — no code changes needed.
+
+profiles:
+  # ---- cheap CPU boxes (Intel N100/N150 mini PC, old i5/i7) ----
+  n100_cpu:
+    format: onnx
+    device: cpu
+    imgsz: 320
+    half: false
+    infer_every: 2          # skip every other frame to halve inference load
+    conf: 0.4
+
+  old_i5_cpu:
+    format: onnx
+    device: cpu
+    imgsz: 416
+    half: false
+    infer_every: 1
+    conf: 0.4
+
+  # ---- RX 580 (AMD GPU via Vulkan / ncnn) ----
+  rx580_vulkan:
+    format: ncnn
+    device: vulkan
+    imgsz: 416
+    half: true
+    infer_every: 1
+    conf: 0.4
+
+  # ---- NVIDIA ----
+  nvidia_tensorrt:
+    format: engine
+    device: 0
+    imgsz: 640
+    half: true
+    infer_every: 1
+    conf: 0.4
+
+  nvidia_onnx_cuda:
+    format: onnx
+    device: 0
+    imgsz: 640
+    half: true
+    infer_every: 1
+    conf: 0.4
+
+  # ---- ARM / SBC ----
+  rpi5_ncnn:
+    format: ncnn
+    device: cpu
+    imgsz: 320
+    half: false
+    infer_every: 3          # only infer every 3rd frame on Pi
+    conf: 0.4
+
+  # ---- dev / reference (works in Codespaces, no GPU needed) ----
+  dev_pt:
+    format: pt
+    device: cpu
+    imgsz: 416
+    half: false
+    infer_every: 2
+    conf: 0.4
+
+  # ---- staging / correctness machine (not throughput) ----
+  # Dell Inspiron 3521 — i5-3317U (2C/4T, 1.7 GHz, 17 W), 16 GB RAM
+  # Radeon HD 7500M is TeraScale-2: NO Vulkan, NO GPU inference.
+  # Use ONNX CPU only. Expected: ~1–3 FPS/cam at 256 px (correctness check, not deployment).
+  inspiron3521_cpu:
+    format: onnx
+    device: cpu
+    imgsz: 256          # 320 is too heavy for this 2-core CPU; start at 256
+    half: false
+    infer_every: 5      # infer 1 out of every 5 frames to stay under 400 ms/frame
+    conf: 0.35

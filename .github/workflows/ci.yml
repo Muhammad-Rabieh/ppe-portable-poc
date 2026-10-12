@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-cpu.txt
+
+      - name: Download placeholder model
+        run: python scripts/download_pretrained.py
+
+      - name: Export (ONNX only — skip ncnn in CI)
+        run: python scripts/export.py --formats onnx --imgsz 320
+
+      - name: Validate
+        run: python scripts/validate.py --profile dev_pt
+
+      - name: Bench (dev_pt profile)
+        run: python scripts/bench.py --profile dev_pt --frames 20
+
+      - name: Bench (n100_cpu profile — simulates cheap box)
+        run: python scripts/bench.py --profile n100_cpu --frames 20
